@@ -111,7 +111,7 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 PROFILE_STATS_PATH = (
     REPOSITORY_ROOT
     / "statistical-approach"
-    / "series_stats_GEP-M_train.parquet"
+    / "series_stats_GEP-L_train.parquet"
 )
 
 # All series with one or more missing/non-finite statistical features
@@ -390,6 +390,7 @@ class Windows(Dataset):
             f"\n  Series: {sum(len(source) for source in self.sources)}"
             f"\n  Statistical sampling: {use_statistical_sampling}"
             f"\n  Source power: {power}"
+            f"\n  Profile power: {PROFILE_POWER}"
         )
 
     def __len__(self):
