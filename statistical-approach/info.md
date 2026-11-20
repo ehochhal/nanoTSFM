@@ -105,6 +105,21 @@ where $n_k$ is the number of series belonging to profile $k$ in source $s$.
 | Moderate profile emphasis | 1.0 | 0.5 | Increase exposure to underrepresented profiles |
 | Equal profile sampling | 1.0 | 0.0 | Give all observed profiles equal selection probability |
 
+experiment runs:
+Run1 profile_power = .5 on series.yaml
+GEP-Val: relative CRPS 0.6124, relative MASE 0.7915 over 129 tasks
+GIFT-Eval: relative CRPS 0.6316, relative MASE 0.9080 over 97 tasks
+
+Run2 profile_power = 1 on series.yaml
+GEP-Val: relative CRPS 0.6166, relative MASE 0.7879 over 129 tasks
+GIFT-Eval: relative CRPS 0.6284, relative MASE 0.8997 over 97 tasks
+
+Run3 profile_power = 0 on series.yaml
+GEP-Val: relative CRPS 0.6260, relative MASE 0.7967 over 129 tasks
+GIFT-Eval: relative CRPS 0.6267, relative MASE 0.9019 over 97 tasks
+
+
+
 look into filtering with pycatch22 or tsfresh
 
 possible statistics: Permutation Enropty, Normalized Spectral Entropy, Lag-1 lag-k autocorrelation ratio
