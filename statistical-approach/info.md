@@ -97,6 +97,36 @@ where $n_k$ is the number of series belonging to profile $k$ in source $s$.
 - 0.5 - Square-root weighting - Favors smaller profiles, but still gives larger profiles more probability. Moderate emphasis on rare profiles.
 - 1.0 - Proportional to profile size - Profiles are selected according to their share of the source's series. Equivalent to uniform sampling of individual series.
 
+### profile stuff
+the following should be a table/isnt formated well Q1-Q5 all take a 20% percentile slice
+Feature
+Q1 (Very low)
+Q3 (Medium)
+Q5 (Very high)
+Relative IQR
+Very little relative variation
+Moderate variation
+Very high relative variation
+Skewness
+Stronger negative skew
+More balanced distribution
+Stronger positive skew
+Excess kurtosis
+Lighter tails
+Typical tail behavior
+Heavier tails / more extreme values
+Autocorrelation
+Low or negative lag-1 relationship
+Moderate relationship
+Strong positive lag-1 relationship
+
+1,1,1,1 makes a profile and will have # of series that go with it - 625 profile possiblites ~ 451 found in GEP-M
+
+Each profile within a source gets a probablity so 451 profiles all share probability weighted on number of series contained in them - then a profile type will be chosen randomly
+If it hits the 70% probability that has 200 series, then 1 of the 200 series will be selected. the series get a uniform probability and randomly selected. 
+
+(-1,-1,-1,-1) profile could be negatively harming due to large amount of catch alls
+
 ### Experimental configurations
 
 | Configuration | `source_power` | `profile_power` | Purpose |
@@ -105,7 +135,7 @@ where $n_k$ is the number of series belonging to profile $k$ in source $s$.
 | Moderate profile emphasis | 1.0 | 0.5 | Increase exposure to underrepresented profiles |
 | Equal profile sampling | 1.0 | 0.0 | Give all observed profiles equal selection probability |
 
-experiment runs:
+### experiment runs:
 Run1 profile_power = .5 on series.yaml
 GEP-Val: relative CRPS 0.6124, relative MASE 0.7915 over 129 tasks
 GIFT-Eval: relative CRPS 0.6316, relative MASE 0.9080 over 97 tasks
@@ -118,6 +148,64 @@ Run3 profile_power = 0 on series.yaml
 GEP-Val: relative CRPS 0.6260, relative MASE 0.7967 over 129 tasks
 GIFT-Eval: relative CRPS 0.6267, relative MASE 0.9019 over 97 tasks
 
+Run4 profile_power = .5 on stat.yaml GEP-L 20k
+GEP-Val: relative CRPS 0.6106, relative MASE 0.7775 over 129 tasks
+GIFT-Eval: relative CRPS 0.6007, relative MASE 0.8627 over 97 tasks
+
+Run5 profile_power = 1 on stat.yaml GEP-L 20k
+GEP-Val: relative CRPS 0.6053, relative MASE 0.7714 over 129 tasks
+GIFT-Eval: relative CRPS 0.6187, relative MASE 0.8791 over 97 tasks
+
+Run6 profile_power = 0 on stat.yaml GEP-L 20k
+GEP-Val: relative CRPS 0.6372, relative MASE 0.8044 over 129 tasks
+GIFT-Eval: relative CRPS 0.6156, relative MASE 0.8867 over 97 tasks
+
+Run7 profilepower = .5 source power = .5
+GEP-Val: relative CRPS 0.5878, relative MASE 0.7495 over 129 tasks
+GIFT-Eval: relative CRPS 0.6330, relative MASE 0.9097 over 97 tasks
+
+Run8 profile = .5 source power = .25
+GEP-Val: relative CRPS 0.5849, relative MASE 0.7566 over 129 tasks
+GIFT-Eval: relative CRPS 0.6520, relative MASE 0.9482 over 97 tasks
+
+Run9 profile = 1 source = 0
+GEP-Val: relative CRPS 0.5874, relative MASE 0.7524 over 129 tasks
+GIFT-Eval: relative CRPS 0.6616, relative MASE 0.9509 over 97 tasks
+
+RUn10 profile 1 source 1 no kurtosis feature
+GEP-Val: relative CRPS 0.6073, relative MASE 0.7730 over 129 tasks
+GIFT-Eval: relative CRPS 0.6325, relative MASE 0.8783 over 97 tasks
+
+Run11 profile 1 source 1 no iqr feature
+GEP-Val: relative CRPS 0.6028, relative MASE 0.7689 over 129 tasks
+GIFT-Eval: relative CRPS 0.6075, relative MASE 0.8688 over 97 tasks
+
+Run11 profile 1 source 1 no skew feature
+GEP-Val: relative CRPS 0.6049, relative MASE 0.7632 over 129 tasks
+GIFT-Eval: relative CRPS 0.6041, relative MASE 0.8691 over 97 tasks
+
+Run12 profile 1 source 1 no skew no iqr feature
+GEP-Val: relative CRPS 0.5994, relative MASE 0.7604 over 129 tasks
+GIFT-Eval: relative CRPS 0.6085, relative MASE 0.8782 over 97 tasks
+
+Run13 seed 2 profile .5 source 1 GEP-L 20k
+GIFT-Eval: relative CRPS 0.6101, relative MASE 0.8734 over 97 tasks
+
+Run14 Seed 1 profile .5
+GEP-Val: relative CRPS 0.6062, relative MASE 0.7747 over 129 tasks
+GIFT-Eval: relative CRPS 0.6085, relative MASE 0.8728 over 97 tasks
+
+Run 15 Seed 2 profile 1
+GEP-Val: relative CRPS 0.6129, relative MASE 0.7778 over 129 tasks
+GIFT-Eval: relative CRPS 0.6060, relative MASE 0.8794 over 97 tasks
+
+Run16 Profile 1 seed 1
+GEP-Val: relative CRPS 0.6064, relative MASE 0.7662 over 129 tasks
+GIFT-Eval: relative CRPS 0.6099, relative MASE 0.8761 over 97 tasks
+
+Run 17 Profile .65 seed 7 gepl 20k
+GEP-Val: relative CRPS 0.6152, relative MASE 0.7803 over 129 tasks
+GIFT-Eval: relative CRPS 0.6105, relative MASE 0.8723 over 97 tasks
 
 
 look into filtering with pycatch22 or tsfresh
