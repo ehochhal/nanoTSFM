@@ -42,3 +42,6 @@ wandb/
 external/
 dist/
 *.egg-info/
+
+# Subset test output (built by subset-test/make_subsets.py)
+/subsets/
